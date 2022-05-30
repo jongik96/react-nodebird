@@ -61,9 +61,9 @@ function loadMyInfoAPI() {
   return axios.get("/user");
 }
 
-function* loadMyInfo(action) {
+function* loadMyInfo() {
   try {
-    const result = yield call(loadMyInfoAPI, action.data);
+    const result = yield call(loadMyInfoAPI);
     // yield delay(1000);
     yield put({
       type: LOAD_MY_INFO_SUCCESS,
