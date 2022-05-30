@@ -13,6 +13,8 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const morgan = require("morgan");
+const hpp = require("hpp");
+const helmet = require("helmet");
 
 dotenv.config();
 passportConfig();
@@ -22,10 +24,18 @@ db.sequelize
     console.log("db 연결 성공");
   })
   .catch(console.error);
-app.use(morgan("dev"));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(morgan("combined"));
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  app.use(morgan("dev"));
+}
+
 app.use(
   cors({
-    origin: true,
+    origin: ["http://localhost:3000", "nodebird.com"],
     credentials: true,
   })
 );
