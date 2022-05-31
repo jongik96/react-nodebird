@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
+      tableName: "images",
       charset: "utf8",
       collate: "utf8_general_ci", // mb4=> 이모티콘 저장
     }
