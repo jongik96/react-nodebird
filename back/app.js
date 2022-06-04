@@ -1,12 +1,14 @@
 const express = require("express");
+const app = express();
+const dotenv = require("dotenv");
 const postsRouter = require("./routes/posts");
+dotenv.config();
 const postRouter = require("./routes/post");
 const userRouter = require("./routes/user");
 const hashtagRouter = require("./routes/hashtag");
 const path = require("path");
 const db = require("./models");
-const dotenv = require("dotenv");
-const app = express();
+
 const cors = require("cors");
 const passportConfig = require("./passport");
 const session = require("express-session");
@@ -16,7 +18,6 @@ const morgan = require("morgan");
 const hpp = require("hpp");
 const helmet = require("helmet");
 
-dotenv.config();
 passportConfig();
 db.sequelize
   .sync()
