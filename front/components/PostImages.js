@@ -18,7 +18,7 @@ const PostImages = ({ images }) => {
         <img
           role="presentation"
           style={{ maxHeight: "200px" }}
-          src={`${backUrl}/${images[0].src}`}
+          src={`/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
@@ -32,8 +32,8 @@ const PostImages = ({ images }) => {
         <img
           role="presentation"
           style={{ width: "50%", display: "inline-block" }}
-          src={`${backUrl}/${images[0].src}`}
-          alt={`${backUrl}/${images[1].src}`}
+          src={`/${images[0].src}`}
+          alt={`/${images[1].src}`}
           onClick={onZoom}
         />
         <img
@@ -53,7 +53,7 @@ const PostImages = ({ images }) => {
         <img
           role="presentation"
           style={{ width: "50%" }}
-          src={`${backUrl}/${images[0].src}`}
+          src={`/${images[0].src}`}
           alt={images[0].src}
           onClick={onZoom}
         />
