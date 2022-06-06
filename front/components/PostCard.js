@@ -17,6 +17,7 @@ import {
   REMOVE_POST_REQUEST,
   UNLIKE_POST_REQUEST,
   RETWEET_REQUEST,
+  UPDATE_POST_REQUEST,
 } from "../reducers/post";
 import FollowButton from "./FollowButton";
 import Link from "next/link";
@@ -28,6 +29,25 @@ const PostCard = ({ post }) => {
   const dispatch = useDispatch();
   const { removePostLoading } = useSelector((state) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const onClickUpdate = useCallback(() => {
+    setEditMode(true);
+  }, []);
+  const onCancelUpdate = useCallback(() => {
+    setEditMode(false);
+  }, []);
+  const onChangePost = useCallback(
+    (editText) => () => {
+      dispatch({
+        type: UPDATE_POST_REQUEST,
+        data: {
+          PostId: post.id,
+          content: editText,
+        },
+      });
+    },
+    [post]
+  );
 
   const onLike = useCallback(() => {
     dispatch({
@@ -85,7 +105,9 @@ const PostCard = ({ post }) => {
               <Button.Group>
                 {id && post.User.id === id ? (
                   <>
-                    <Button>수정</Button>
+                    {!post.RetweetId && (
+                      <Button onClick={onClickUpdate}>수정</Button>
+                    )}
                     <Button
                       loading={removePostLoading}
                       onClick={onRemovePost}
@@ -121,14 +143,20 @@ const PostCard = ({ post }) => {
             </div>
             <Card.Meta
               avatar={
-                <Link href={`/user/${post.Retweet.User.id}`}>
+                <Link href={`/user/${post.Retweet.User.id}`} prefetch={false}>
                   <a>
                     <Avatar>{post.Retweet.User.nickname[0]}</Avatar>
                   </a>
                 </Link>
               }
               title={post.Retweet.User.nickname}
-              description={<PostCardContent postData={post.Retweet.content} />}
+              description={
+                <PostCardContent
+                  onCancelUpdate={onCancelUpdate}
+                  postData={post.Retweet.content}
+                  onChangePost={onChangePost}
+                />
+              }
             />
           </Card>
         ) : (
@@ -138,7 +166,7 @@ const PostCard = ({ post }) => {
                 <div style={{ float: "right" }}>
                   {moment(post.createdAt).format("YYYY.MM.DD")}
                 </div>
-                <Link href={`/user/${post.User.id}`}>
+                <Link href={`/user/${post.User.id}`} prefetch={false}>
                   <a>
                     <Avatar>{post.User.nickname[0]}</Avatar>
                   </a>
@@ -146,7 +174,14 @@ const PostCard = ({ post }) => {
               </>
             }
             title={post.User.nickname}
-            description={<PostCardContent postData={post.content} />}
+            description={
+              <PostCardContent
+                editMode={editMode}
+                onCancelUpdate={onCancelUpdate}
+                onChangePost={onChangePost}
+                postData={post.content}
+              />
+            }
           />
         )}
       </Card>
@@ -162,7 +197,7 @@ const PostCard = ({ post }) => {
                 <Comment
                   author={item.User.nickname}
                   avatar={
-                    <Link href={`/user/${item.User.id}`}>
+                    <Link href={`/user/${item.User.id}`} prefetch={false}>
                       <a>
                         <Avatar>{item.User.nickname[0]}</Avatar>
                       </a>
