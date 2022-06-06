@@ -250,7 +250,7 @@ function* addPost(action) {
 }
 
 function updatePostAPI(data) {
-  return axios.patch(`/post/${data.PostId}`, { content: data.content });
+  return axios.patch(`/post/${data.PostId}`, data);
 }
 
 function* updatePost(action) {
