@@ -22,7 +22,7 @@ const UserProfile = () => {
           </Link>
         </div>,
         <div key="followings">
-          <Link href={`/profile`}>
+          <Link href="/profile">
             <a>
               팔로잉
               <br />
@@ -31,7 +31,7 @@ const UserProfile = () => {
           </Link>
         </div>,
         <div key="followings">
-          <Link href={`/profile`}>
+          <Link href="/profile">
             <a>
               팔로워
               <br />
