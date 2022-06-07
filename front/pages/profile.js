@@ -58,13 +58,13 @@ const Profile = () => {
         <NicknameEditForm />
         <FollowList
           header="팔로잉 목록"
-          data={followings}
+          data={followingsData}
           onClickMore={loadMoreFollowings}
           loading={!followingsData && !followingError}
         />
         <FollowList
           header="팔로우 목록"
-          data={followers}
+          data={followersData}
           onClickMore={loadMoreFollowers}
           loading={!followersData && !followerError}
         />
