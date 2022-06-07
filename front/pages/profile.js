@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React, { useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import AppLayout from "../components/AppLayout";
 import FollowList from "../components/FollowList";
 import NicknameEditForm from "../components/NicknameEditForm";
@@ -19,11 +19,11 @@ const Profile = () => {
   const [followingsLimit, setFollowingsLimit] = useState(3);
   const { me } = useSelector((state) => state.user);
   const { data: followersData, error: followerError } = useSWR(
-    `http://${backUrl}/user/followers?limit=${followersLimit}`,
+    `${backUrl}/user/followers?limit=${followersLimit}`,
     fetcher
   );
   const { data: followingsData, error: followingError } = useSWR(
-    `http://${backUrl}/user/followings?limit=${followingsLimit}`,
+    `${backUrl}/user/followings?limit=${followingsLimit}`,
     fetcher
   );
 
@@ -58,13 +58,13 @@ const Profile = () => {
         <NicknameEditForm />
         <FollowList
           header="팔로잉 목록"
-          data={me.Followings}
+          data={followings}
           onClickMore={loadMoreFollowings}
           loading={!followingsData && !followingError}
         />
         <FollowList
           header="팔로우 목록"
-          data={me.Followers}
+          data={followers}
           onClickMore={loadMoreFollowers}
           loading={!followersData && !followerError}
         />
