@@ -17,12 +17,12 @@ try {
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  region: "us-east-1",
+  region: "ap-northeast-2",
 });
 const upload = multer({
   storage: multerS3({
     s3: new AWS.S3(),
-    bucket: "react-nodebird-ik",
+    bucket: "nodebird-ik",
     key(req, file, cb) {
       cb(null, `original/${Date.now()}_${path.basename(file.originalname)}`);
     },
@@ -323,12 +323,10 @@ router.patch("/:postId", isLoggedIn, async (req, res, next) => {
       ); // [[노드, true], [리액트, true]]
       await post.setHashtags(result.map((v) => v[0]));
     }
-    res
-      .status(200)
-      .json({
-        PostId: parseInt(req.params.postId, 10),
-        content: req.body.content,
-      });
+    res.status(200).json({
+      PostId: parseInt(req.params.postId, 10),
+      content: req.body.content,
+    });
   } catch (error) {
     console.error(error);
     next(error);
