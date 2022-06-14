@@ -25,7 +25,10 @@ const Post = () => {
         </title>
       </Head>
       <meta name="description" content={singlePost.content} />
-      <meta property="og:title" content={`${singlePost.nickname}`} />
+      <meta
+        property="og:title"
+        content={`${singlePost.User.nickname}님의 게시글`}
+      />
       <meta property="og:description" content={singlePost.content} />
       <meta
         property="og:image"

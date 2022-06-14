@@ -78,7 +78,7 @@ function PostCard({ post }) {
 
   const onRemovePost = useCallback(() => {
     if (!id) {
-      return alert("로그인이 필요합니다.");
+      return;
     }
     return dispatch({
       type: REMOVE_POST_REQUEST,
@@ -157,7 +157,11 @@ function PostCard({ post }) {
             </div>
             <Card.Meta
               avatar={
-                <Link href={`/user/${post.Retweet.User.id}`} prefetch={false}>
+                <Link
+                  href={`/user/${post.Retweet.User.id}`}
+                  as={`/user/${post.Retweet.User.id}`}
+                  prefetch={false}
+                >
                   <a>
                     <Avatar>{post.Retweet.User.nickname[0]}</Avatar>
                   </a>
@@ -180,7 +184,11 @@ function PostCard({ post }) {
             </div>
             <Card.Meta
               avatar={
-                <Link href={`/user/${post.User.id}`} prefetch={false}>
+                <Link
+                  href={`/user/${post.User.id}`}
+                  as={`/ser/${post.User.id}`}
+                  prefetch={false}
+                >
                   <a>
                     <Avatar>{post.User.nickname[0]}</Avatar>
                   </a>
@@ -211,7 +219,11 @@ function PostCard({ post }) {
                 <Comment
                   author={item.User.nickname}
                   avatar={
-                    <Link href={`/user/${item.User.id}`} prefetch={false}>
+                    <Link
+                      href={`/user/${item.User.id}`}
+                      as={`/user/${item.User.id}`}
+                      prefetch={false}
+                    >
                       <a>
                         <Avatar>{item.User.nickname[0]}</Avatar>
                       </a>

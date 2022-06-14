@@ -1,45 +1,52 @@
 const express = require("express");
-const app = express();
-const dotenv = require("dotenv");
-const postsRouter = require("./routes/posts");
-dotenv.config();
-const postRouter = require("./routes/post");
-const userRouter = require("./routes/user");
-const hashtagRouter = require("./routes/hashtag");
-const path = require("path");
-const db = require("./models");
-
 const cors = require("cors");
-const passportConfig = require("./passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
+const dotenv = require("dotenv");
 const morgan = require("morgan");
+const path = require("path");
 const hpp = require("hpp");
 const helmet = require("helmet");
 
-passportConfig();
+const postRouter = require("./routes/post");
+const postsRouter = require("./routes/posts");
+const userRouter = require("./routes/user");
+const hashtagRouter = require("./routes/hashtag");
+const db = require("./models");
+const passportConfig = require("./passport");
+
+dotenv.config();
+const app = express();
+
 db.sequelize
   .sync()
   .then(() => {
     console.log("db 연결 성공");
   })
   .catch(console.error);
+passportConfig();
 
 if (process.env.NODE_ENV === "production") {
+  app.enable("trust proxy");
   app.use(morgan("combined"));
   app.use(hpp());
-  app.use(helmet());
+  app.use(helmet({ contentSecurityPolicy: false }));
+  app.use(
+    cors({
+      origin: "https://whddlr.com",
+      credentials: true,
+    })
+  );
 } else {
   app.use(morgan("dev"));
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  );
 }
-
-app.use(
-  cors({
-    origin: "http://whddlr.com",
-    credentials: true,
-  })
-);
 
 app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
@@ -50,6 +57,7 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
+    proxy: process.env.NODE_ENV === "production",
     cookie: {
       httpOnly: true,
       secure: false,
@@ -69,6 +77,6 @@ app.get("/", (req, res) => {
   res.send("Server Run~");
 });
 
-app.listen(80, () => {
+app.listen(3065, () => {
   console.log(" 서버 실행 중 ");
 });
