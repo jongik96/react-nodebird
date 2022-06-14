@@ -1,0 +1,70 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy: 
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout the files
+        uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.MIIEpAIBAAKCAQEAqI09mL5JAP1XKxrm6dg69UKMxV2gApINhDDmHeDyGeynxqOW
+aE75zZgVceMcH7kn83p1IPS9xueXJzvqCwCkuByFtiQgODobVbM9oEWMslW5hQUO
+H6ybD5F3lmD0COvn56VjCuhNZX3CT/ew/n7k5pJyK1bTa/Zps2Ma/0YpJBT0Gz2q
+5tT9acJrJa+xtarmLhGZGzZp65C63y74PwmJdZhP1hwmeLh1943do+Dd9n2TUVaT
+wMm64mctXHqRFbXcpRANfeMclFn3hyMROzebR31Eb+uwsgJR6bXBhiR4Uaa38JQC
+C7V2ZkuD1S/B1pn5XzzN2evhhWCvVbZyOZqSTQIDAQABAoIBAQChcMcy6e+a1w0K
+6HWMPeQazmdvE0ITtDjmCMAgljjNw/LfPAjwV9TEq4q+zr09VWeCuiQ+MK0lOuV4
+WtbNOwyKnCcmUmvZ7y4HY+r+/B7LIXjUhAcHJ5hNzRMyIiMb+HjjU3IOHHslXtMj
+LSeGW5x7jIF2KW/P1PFhNOfC4jy9pRRhLb3G257wyfUr+urirl1e+m5pdE4XtUD5
+5/lJc5CdLCD87MqswvtkkC1A0FBVvZfyRtd4CU6A+04hhLdVCaX/6bwHUBuQZw8Z
+9VpAMhe9KdOjoaV10srfU7UOJ64sFWIvZegmhF30N5CPfQ+24136p8iWuKDLexlK
+XxmpW1WBAoGBAOUsdgAGkuADoDU9o6Ulo28BD48WJTM6rN9vJOCmQ7AklkNSkhgw
+YhVPUGmhXvFbO2mHxw32wgGM1tINwuH++MBskwnpJAUOJzcAhIkathxBpi8XTcci
+fYp8us3dHdiRyY/yBYZaS9BTjeYX/UbtaoJlK44W21K0sNrncAyFFJ1ZAoGBALxI
+Jnd0ePfYQXl/54uRtE02mc9G8cOWG1W9W/RBydZP1JePxEt7jbHAQSpFXj42ShWg
+AAKOPWZTByr8KX8OYeh8Wf199OWSW2f1WZ/wCdtbgnsZykurUKPKGcglWCOG4mZW
+6E3u7UryRYhwKRp39eivwSOURiXn4mWgd/CTb7oVAoGATbQmilmwQS5ZitPMgbli
+UcftS5m5oUYayWN5AIa/WqD9JfSAPp1hFFKhND+X3oQNf/men3h0TWxAhlZOJqx6
+EVx++pRHN0OWPkr5pTceWjRUMZFYONXT9TnXaOe5L+42ho0MHILPQ+KgsUye/waO
+34mIHBRZ5xAHCyH/1u7kj3kCgYB4lOytzFY8xK8KFTRBWotSeAmBijoDvPq8qo1d
+nVSagH3yowxgGzzf/fS+EbcNuM8xkkrvWBFSmxIYIW6iBKAHuLwZcLWK4XTQ230O
+xThK2Ax0skuwsoLuotxoJiKQfi44xKf6YW5vdUG647ovTWycHRNgqfFTDXMdCuxF
+kucXEQKBgQDeTLQ1MGA4NYZykBD+feXnsXNJ5EKDHvyB//DhDGY/MMYbGcT3EZGY
+CL6RU3Z0fpXqzUaUdZDyXdseL5tS2hE1sbDBKPalo/d9p1oqJgPMda/XBJ3V+Tcq
+T7U4O68YSbmzBWvojSTmLXi25BVA94+ue0OoF1bWXgu8CsMCWoyDYA==}}
+          REMOTE_HOST: ${{secrets.ec2-172-31-43-243.ap-northeast-2.compute.amazonaws.com}}
+          REMOTE_USER: ${{secrets.ubuntu}}
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
