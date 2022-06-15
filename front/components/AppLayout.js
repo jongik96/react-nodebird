@@ -24,7 +24,7 @@ const AppLayout = ({ children }) => {
       <Menu mode="horizontal">
         <Menu.Item key="home">
           <Link href="/" as={"/"}>
-            <a>노드버드</a>
+            <a>깃헙액션테스트</a>
           </Link>
         </Menu.Item>
         <Menu.Item key="profile">

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React, { useEffect, useState, useCallback } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AppLayout from "../components/AppLayout";
 import FollowList from "../components/FollowList";
 import NicknameEditForm from "../components/NicknameEditForm";
@@ -11,6 +11,7 @@ import wrapper from "../store/configureStore";
 import { END } from "redux-saga";
 import useSWR from "swr";
 import { backUrl } from "../config/config";
+
 const fetcher = (url) =>
   axios.get(url, { withCredentials: true }).then((result) => result.data);
 
@@ -73,19 +74,34 @@ const Profile = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  async (context) => {
-    const cookie = context.req ? context.req.headers.cookie : "";
-    axios.defaults.headers.Cookie = "";
-    if (context.req && cookie) {
-      axios.defaults.headers.Cookie = cookie;
-    }
-    context.store.dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   async (context) => {
+//     const cookie = context.req ? context.req.headers.cookie : "";
+//     axios.defaults.headers.Cookie = "";
+//     if (context.req && cookie) {
+//       axios.defaults.headers.Cookie = cookie;
+//     }
+//     context.store.dispatch({
+//       type: LOAD_MY_INFO_REQUEST,
+//     });
 
-    context.store.dispatch(END);
-    await context.store.sagaTask.toPromise();
+//     context.store.dispatch(END);
+//     await context.store.sagaTask.toPromise();
+//   }
+// );
+
+Profile.getInitialProps = (context) => async () => {
+  const cookie = context.req ? context.req.headers.cookie : "";
+  axios.defaults.headers.Cookie = "";
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
   }
-);
+  context.store.dispatch({
+    type: LOAD_MY_INFO_REQUEST,
+  });
+
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+};
+
 export default Profile;
