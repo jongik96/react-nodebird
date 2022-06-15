@@ -21,6 +21,10 @@ jobs:
           
       - name: Build
         run: |
+          cd back/
+          npm install
+          npm start
+          cd ..
           cd front/
           npm install -g yarn
           yarn add react react-dom
