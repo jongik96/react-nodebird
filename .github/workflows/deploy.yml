@@ -21,6 +21,7 @@ jobs:
           
       - name: Build
         run: |
+          cd front/
           npm install -g yarn
           yarn install --frozen-lockfile
           yarn build
